@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer
 from fastapi.responses import HTMLResponse
 
 
@@ -16,8 +17,8 @@ app.add_middleware(
 )
 
 # auth router
-#from app.routers.auth import auth
-#app.include_router(auth.router)
+from app.routers import jwt
+app.include_router(jwt.router)
 
 # user profiles router
 from app.routers import users
