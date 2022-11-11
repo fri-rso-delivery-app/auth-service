@@ -51,16 +51,6 @@ async def register_user(user: UserCreate, password: str):
     return created_user
 
 
-# do not enable
-#@router.get('/', response_model=List[UserRead])
-#async def list_users():
-#    return await table.find().to_list(1000)
-#
-#
-#@router.get('/{id}', response_model=UserRead)
-#async def read_user(user: User = Depends(get_user)):
-#    return user
-
 @router.get('/my_profile', response_model=UserRead)
 async def read_user(token: JWTokenData = Depends(get_current_user)):
     return await get_user(token.user_id)
