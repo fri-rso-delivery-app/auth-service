@@ -8,9 +8,18 @@ app = FastAPI(
     title='Authentication microservice',
 )
 
+allowed_origins = ([
+        'http://localhost:8888',
+        'http://0.0.0.0:8888',
+    ]
+    # allow localhost ports from 8000-8009
+    + [f'http://localhost:{8000+i}' for i in range(10)]
+    + [f'http://0.0.0.0:{8000+i}' for i in range(10)]
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
