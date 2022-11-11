@@ -6,8 +6,7 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 
-if __name__ == "__main__":
-    if not os.path.exists('./data'):
-        os.makedirs('./data')
+from app import config
 
-    uvicorn.run("app.app:app", host="0.0.0.0", port=8080, reload=True, log_level="info")
+if __name__ == "__main__":
+    uvicorn.run("app.app:app", host="0.0.0.0", port=config.http_port, reload=True, log_level="info")

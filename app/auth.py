@@ -5,16 +5,15 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
+from app import config
 from app.db import db
 from app.models.jwt import *
 from app.models.users import *
 
-# to get a viable secret run:
-# openssl rand -hex 32
-# TODO: replace in production
-SECRET_KEY = "SECRET_REPLACE_ME"
+
+SECRET_KEY = config.secret_key
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = config.jwt_token_expire_minutes
 
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
