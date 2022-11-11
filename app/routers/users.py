@@ -11,13 +11,6 @@ from app.auth import get_password_hash, get_current_user
 TABLE = 'users'
 table = db[TABLE]
 
-# to get a viable secret run:
-# openssl rand -hex 32
-# TODO: replace in production
-SECRET_KEY = "SECRET_REPLACE_ME"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
 
 router = APIRouter(
     prefix='/users',
