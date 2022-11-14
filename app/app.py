@@ -2,8 +2,10 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 
+from app import config
 
 app = FastAPI(
+    root_path=config.root_path,
     title='Authentication microservice',
 )
 
