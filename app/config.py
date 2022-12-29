@@ -2,11 +2,16 @@ from pydantic import BaseSettings
 from functools import lru_cache
 
 class Settings(BaseSettings):
+    app_title: str = 'Authentication microservice'
+    app_name: str = 'auth'
 
     api_root_path: str = ''
     api_http_port: int = 8001
     api_db_url: str = 'mongodb://root:example@localhost:27017/'
     api_db_name: str = 'auth_service'
+
+    # trace
+    api_trace_url: str = 'http://localhost:4317'
 
     # auth settings
     # to get a viable secret run:

@@ -66,11 +66,14 @@ def health():
     return 'I am alive'
 
 #
-# Metrics
+# Metrics, Traces
 #
 
-from prometheus_fastapi_instrumentator import Instrumentator
+from app.utils import PrometheusMiddleware, metrics, setting_otlp
 
-@app.on_event("startup")
-async def startup():
-    Instrumentator().instrument(app).expose(app)
+# Metrics middleware
+app.add_middleware(PrometheusMiddleware, app_name=settings.app_name)
+app.add_route('/metrics', metrics)
+
+# OpenTelemetry exporter
+setting_otlp(app, settings.app_name, settings.api_trace_url)
