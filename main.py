@@ -6,7 +6,9 @@ abspath = os.path.abspath(__file__)
 dname = os.path.dirname(abspath)
 os.chdir(dname)
 
-from app import config
+from app.config import Settings, get_settings
+
+settings: Settings = get_settings()
 
 if __name__ == "__main__":
-    uvicorn.run("app.app:app", host="0.0.0.0", port=config.http_port, reload=True, log_level="info")
+    uvicorn.run("app.app:app", host="0.0.0.0", port=settings.api_http_port, reload=True, log_level="info")
