@@ -43,3 +43,21 @@ async def root(request: Request):
         <h1> Hello! Docs available at <a href="{request.scope.get("root_path")}/docs">{request.scope.get("root_path")}/docs</a> </h1>
     """
 
+#
+# Healthcheck
+#
+
+import logging
+
+# Define the filter
+class EndpointFilter(logging.Filter):
+    def filter(self, record: logging.LogRecord) -> bool:
+        return record.args and len(record.args) >= 3 and record.args[2] != "/health"
+
+# Add filter to the logger
+logging.getLogger("uvicorn.access").addFilter(EndpointFilter())
+
+# Define the API endpoints
+@app.get('/health')
+def health():
+    return "I am alive"
