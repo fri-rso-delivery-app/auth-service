@@ -10,10 +10,7 @@ from app.db import db
 from app.models.jwt import *
 from app.models.users import *
 
-
-SECRET_KEY = config.secret_key
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = config.jwt_token_expire_minutes
+from app.config import Settings, get_settings
 
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
@@ -42,14 +39,17 @@ async def authenticate_user(username: str, password: str):
 
     return user
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(
+    data: dict, expires_delta: timedelta | None = None,
+    settings: Settings = Depends(get_settings),
+):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, settings.api_secret_key, algorithm=settings.api_jwt_algorithm)
     return encoded_jwt
 
 
