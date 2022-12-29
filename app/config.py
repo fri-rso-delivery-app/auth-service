@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     api_jwt_algorithm: str = 'HS256'
     api_token_expire_min: int = 60
 
+    class Config:
+        env_file = ".env"
+
 
 @lru_cache()
 def get_settings() -> Settings:
