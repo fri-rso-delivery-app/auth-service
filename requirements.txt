@@ -11,6 +11,8 @@ h11==0.14.0
 idna==3.4
 motor==3.1.1
 passlib==1.7.4
+prometheus-client==0.15.0
+prometheus-fastapi-instrumentator==5.9.1
 pyasn1==0.4.8
 pycparser==2.21
 pydantic==1.10.2
