@@ -52,12 +52,25 @@ import logging
 # Define the filter
 class EndpointFilter(logging.Filter):
     def filter(self, record: logging.LogRecord) -> bool:
-        return record.args and len(record.args) >= 3 and record.args[2] != "/health"
+        return record.args and \
+            len(record.args) >= 3 and \
+            record.args[2] != '/health' and \
+            not record.args[2].startswith('/metrics')
 
 # Add filter to the logger
-logging.getLogger("uvicorn.access").addFilter(EndpointFilter())
+logging.getLogger('uvicorn.access').addFilter(EndpointFilter())
 
 # Define the API endpoints
 @app.get('/health')
 def health():
-    return "I am alive"
+    return 'I am alive'
+
+#
+# Metrics
+#
+
+from prometheus_fastapi_instrumentator import Instrumentator
+
+@app.on_event("startup")
+async def startup():
+    Instrumentator().instrument(app).expose(app)
