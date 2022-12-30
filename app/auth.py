@@ -57,6 +57,7 @@ def create_access_token(
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme),
+    settings: Settings = Depends(get_settings),
 ):
     # generate exteption to re-use
     credentials_exception = HTTPException(
@@ -67,7 +68,7 @@ async def get_current_user(
 
     # verify user credentials
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, settings.api_secret_key, algorithms=[settings.api_jwt_algorithm])
         username: str = payload.get('sub')
         user_id: str = payload.get('user_id')
         if username is None or user_id is None:
