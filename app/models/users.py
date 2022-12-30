@@ -12,6 +12,8 @@ class UserBase(BaseModel):
 # db-only overrides
 class User(CommonBase, UserBase):
     password_hash: str | None
+    is_customer: bool
+    is_delivery_person: bool
 
 # create-only overrides
 class UserCreate(UserBase):
@@ -24,4 +26,5 @@ class UserUpdate(BaseModel):
 
 # read-only overrides
 class UserRead(CommonBaseRead, UserBase):
-    pass
+    is_customer: bool
+    is_delivery_person: bool
