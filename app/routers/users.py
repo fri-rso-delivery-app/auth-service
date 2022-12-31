@@ -35,7 +35,7 @@ async def check_email_taken(email: str):
 
 
 @router.post('/register', response_model=UserRead)
-async def register_user(user: UserCreate, password: str):
+async def register_user(user: UserCreate):
     # checks
     await check_username_taken(user.username)
     await check_email_taken(user.email)
@@ -43,7 +43,7 @@ async def register_user(user: UserCreate, password: str):
     # create
     user_db = jsonable_encoder(User(
         **user.dict(),
-        password_hash=get_password_hash(password)
+        password_hash=get_password_hash(user.password)
     ))
     new_user = await table.insert_one(user_db)
     created_user = await table.find_one({'_id': new_user.inserted_id})

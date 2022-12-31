@@ -17,7 +17,7 @@ class User(CommonBase, UserBase):
 
 # create-only overrides
 class UserCreate(UserBase):
-    pass
+    password: str
 
 # updatable fields
 class UserUpdate(BaseModel):
